@@ -27,8 +27,10 @@ $ npm run start
 Path: ```HOST:PORT/:username``` \
 Method: ```GET```
 
-Parameters: \
-username - gamer's username \
+Parameters:
+```
+username - gamer's username 
+```
 Success response code: 200 \
 Sample response:
 ```
@@ -40,10 +42,10 @@ Sample response:
 
 # Update scores
 
-Path: ```HOST:PORT/:username``` \
+Path: ```HOST:PORT/``` \
 Method: ```POST```
 
-Body parameters: \
+Body parameters:
 ```
 {
     username: gamer's username,
