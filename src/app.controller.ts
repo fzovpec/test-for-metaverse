@@ -13,6 +13,6 @@ export class AppController {
 
   @Post()
   async setScores(@Body() body: any){
-      await updateScores(body.username, body.wins, body.losses);
+      updateScores(body.username, body.wins, body.losses);
   }
 }
