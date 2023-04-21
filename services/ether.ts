@@ -3,53 +3,68 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const contractABI = [
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "username",
-                "type": "bytes32"
-            }
-        ],
-        "name": "getScores",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "wins",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "losses",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "bytes32",
-                "name": "username",
-                "type": "bytes32"
-            },
-            {
-                "internalType": "uint256",
-                "name": "wins",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "losses",
-                "type": "uint256"
-            }
-        ],
-        "name": "updateScores",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "username",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "wins",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "losses",
+				"type": "uint256"
+			}
+		],
+		"name": "updateScores",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "username",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "gameId",
+				"type": "uint256"
+			}
+		],
+		"name": "getScores",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "wins",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "losses",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
 ];
 
 const contractAddress = process.env.CONTRACT_ADDRESS;
@@ -67,26 +82,24 @@ async function initContract() {
     return contract;
 }
 
-async function updateScores(username: string, wins: number, losses: number) {
+async function updateScores(username: string, gameId: number, wins: number, losses: number) {
     const contract = await initContract();
 
     const bytes32Username = ethers.ethers.encodeBytes32String(username);
 
-    const tx = await contract.updateScores(bytes32Username, wins, losses);
+    const tx = await contract.updateScores(bytes32Username, gameId, wins, losses);
     await tx.wait();
 }
   
-async function getScores(username: string) {
+async function getScores(username: string, gameId: number) {
     const contract = await initContract();
   
     const bytes32Username = ethers.ethers.encodeBytes32String(username);
-  
-    const scores = await contract.getScores(bytes32Username);
+    
+    const scores = await contract.getScores(bytes32Username, gameId);
   
     const wins = Number(scores[0]);
     const losses = Number(scores[1]);
-
-    console.log(wins, losses);
   
     return { wins, losses };
 }

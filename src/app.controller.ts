@@ -6,13 +6,13 @@ import { getScores, updateScores } from '../services/ether';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get(':username')
-  async getScores(@Param('username') username: string) {
-      return await getScores(username);
+  @Get(':username/:gameId')
+  async getScores(@Param('username') username: string, @Param('gameId') gameId: number) {
+      return await getScores(username, gameId);
   }
 
   @Post()
   async setScores(@Body() body: any){
-      updateScores(body.username, body.wins, body.losses);
+      updateScores(body.username, body.gameId, body.wins, body.losses);
   }
 }
